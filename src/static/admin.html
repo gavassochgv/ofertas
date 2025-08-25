@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Ofertas Especiais</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-brand">
+                <h1><i class="fas fa-cog"></i> Painel Administrativo</h1>
+            </div>
+            <nav class="admin-nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Ver Site
+                </a>
+                <button id="logout-btn" class="nav-link logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <div class="container">
+            <!-- Login Section -->
+            <section id="login-section" class="login-section">
+                <div class="login-card">
+                    <h2><i class="fas fa-lock"></i> Acesso Administrativo</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="admin-password">Senha:</label>
+                            <input type="password" id="admin-password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Entrar
+                        </button>
+                    </form>
+                    <div id="login-error" class="error-message"></div>
+                </div>
+            </section>
+
+            <!-- Admin Panel -->
+            <section id="admin-panel" class="admin-panel" style="display: none;">
+                <!-- Add Product Section -->
+                <div class="admin-section">
+                    <h2><i class="fas fa-plus-circle"></i> Adicionar Produto</h2>
+                    <form id="add-product-form" class="product-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-name">Nome do Produto *</label>
+                                <input type="text" id="product-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-link">Link do Produto *</label>
+                                <input type="url" id="product-link" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-description">Descrição</label>
+                            <textarea id="product-description" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-price-original">Preço Original (R$) *</label>
+                                <input type="number" id="product-price-original" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-price-discount">Preço com Desconto (R$)</label>
+                                <input type="number" id="product-price-discount" step="0.01" min="0">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-coupon">Cupom de Desconto</label>
+                                <input type="text" id="product-coupon">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-image">Link da Imagem</label>
+                                <input type="url" id="product-image">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Adicionar Produto
+                        </button>
+                    </form>
+                    <div id="add-product-message" class="message"></div>
+                </div>
+
+                <!-- Products List Section -->
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-list"></i> Produtos Cadastrados</h2>
+                        <button id="refresh-products" class="btn btn-secondary">
+                            <i class="fas fa-sync-alt"></i> Atualizar
+                        </button>
+                    </div>
+                    
+                    <div id="products-table-container">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Carregando produtos...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Edit Product Modal -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Editar Produto</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form id="edit-product-form" class="product-form">
+                <input type="hidden" id="edit-product-id">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-product-name">Nome do Produto *</label>
+                        <input type="text" id="edit-product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-link">Link do Produto *</label>
+                        <input type="url" id="edit-product-link" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-product-description">Descrição</label>
+                    <textarea id="edit-product-description" rows="3"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-product-price-original">Preço Original (R$) *</label>
+                        <input type="number" id="edit-product-price-original" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-price-discount">Preço com Desconto (R$)</label>
+                        <input type="number" id="edit-product-price-discount" step="0.01" min="0">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-product-coupon">Cupom de Desconto</label>
+                        <input type="text" id="edit-product-coupon">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-product-image">Link da Imagem</label>
+                        <input type="url" id="edit-product-image">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="edit-product-active"> Produto Ativo
+                    </label>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Salvar Alterações
+                    </button>
+                </div>
+            </form>
+            <div id="edit-product-message" class="message"></div>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>
+
